@@ -4,6 +4,11 @@
 ![Версия](https://img.shields.io/badge/версия_0.0.1-blue)
 ![Статус](https://img.shields.io/badge/статус-в%20разработке-yellow)
 
+# 👨‍🎓
+[➡️ ТУТ УЧИСЬ ](https://github.com/TopCollegeTCF/Vampire-Survivors/wiki)
+# 👩‍🎤
+[➡️ ТУТ ГОВОРИ ](https://github.com/TopCollegeTCF/Vampire-Survivors/discussions/12#discussion-9651187)
+
 #### Командная структура
 
 > "Мы поделились на 6 команд. У каждой своя зона ответственности.
@@ -17,7 +22,6 @@
 | **Assets & Graphics** | Спрайты (персонаж, ресурсы, враги), иконки |
 | **Sound & Effects** | Звуки окружения, сбора, атак; визуальные эффекты |
 | **Integration & QA** | Генерация карты, Git, сборка, деплой, тестирование |
-
 
 > **Важно:** вклад каждого участника измеряется внесенными изменениями в ветку своей команды и отражается в итоговом результате как вклад в глобальную разработку игры. Прочитать про это больше можно здесь  [➡️ WIKI ](https://github.com/TopCollegeTCF/Vampire-Survivors/wiki)
 
