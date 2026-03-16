@@ -56,6 +56,7 @@ function shootAtNearestEnemy() {
     }
     if (!nearest) return;
 
+    
     var angle = Math.atan2(nearest.posY - player.y, nearest.posX - player.x);
     if (player.gun) {
         player.gun.style.transform = 'rotate(' + (angle * 180 / Math.PI) + 'deg)';
