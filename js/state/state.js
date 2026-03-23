@@ -53,6 +53,11 @@ var GameState = (function() {
         totalKills: function() { return totalKills; },
         windowWidth: function() { return windowWidth; },
         windowHeight: function() { return windowHeight; },
+
+        
+        setGunAngle: function(angle) {
+    player.gunAngle = angle;
+},
         
         // Сеттеры и методы
         setPlaying: function(value) { isPlaying = value; },
