@@ -111,23 +111,15 @@ function setupPauseListeners() {
     };
 }
 
-function createPlayer() {
-    var playerDiv = document.createElement('div');
-    playerDiv.className = 'player';
-    playerDiv.style.left = GameState.player().x + 'px';
-    playerDiv.style.top = GameState.player().y + 'px';
-
-    var healthBar = document.createElement('div');
-    healthBar.className = 'health-bar';
-    healthBar.style.width = '100%';
-    playerDiv.appendChild(healthBar);
-
-    var playerGun = document.createElement('div');
-    playerGun.className = 'gun';
-    playerDiv.appendChild(playerGun);
-
-    elements.gameContainer.appendChild(playerDiv);
-    GameState.setPlayerElement(playerDiv, playerGun);
+function initCanvas() {
+    console.log('[UI] initCanvas вызван');
+    if (typeof GameCanvas !== 'undefined' && GameCanvas.init) {
+        GameCanvas.init();
+        GameCanvas.startRenderLoop();
+        console.log('[UI] Canvas инициализирован');
+    } else {
+        console.error('[UI] GameCanvas не найден');
+    }
 }
 
 function createEnemyElement(x, y) {
