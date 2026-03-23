@@ -1,112 +1,89 @@
-// ============================================================
-// core.js - Главный цикл игры
-// ============================================================
-
 var GameCore = (function() {
+    // Сюда будем добавлять все функции
+function init() {
+ console.log('[Core] init вызван');
+
+ GameUI.init();
+    GameHero.init();
+    setupPauseHandler();
+    setupResizeHandler();
+    GameLogger.info('Игра инициализирована');
+}
+function startGame() {
+ console.log('[Core] startGame вызван');
+
+ GameState.reset();
+    GameState.setPlayerPosition(
+        GameState.windowWidth() / 2,
+        GameState.windowHeight() / 2
+    );
     
-    function init() {
-        console.log('GameCore.init() вызван');
-        // Проверяем, что все зависимости загружены
-        if (typeof GameUI === 'undefined') {
-            console.error('GameUI не загружен!');
-            return;
+    GameUI.showGameUI();
+ GameUI.hideAllMenus();
+
+ GameUI.updateAmmo();
+    GameUI.updateKills();
+    GameUI.updateHealth();
+    
+    GameWaves.startNextWave();
+    GameLogger.logGameStart();
+    
+    gameLoop();
+}
+function gameLoop() {
+    if (!GameState.isPlaying() || GameState.isPaused()) return;
+    
+    requestAnimationFrame(gameLoop);
+    
+    GameHero.updatePosition();
+    GameAI.moveBullets();
+    GameAI.shootAtNearestEnemy();
+    
+    var playerDied = GameAI.updateEnemies();
+    if (playerDied) {
+        endGame();
+    }
+}
+function setupPauseHandler() {
+    document.addEventListener('keydown', function(e) {
+        if (e.code !== 'Escape' || !GameState.isPlaying()) return;
+        
+        if (GameState.isPaused()) {
+            resumeGame();
+        } else {
+            pauseGame();
         }
-        if (typeof GameHero === 'undefined') {
-            console.error('GameHero не загружен!');
-            return;
-        }
-        
-        // Инициализируем модули
-        GameUI.init();
-        GameHero.init();
-        setupPauseHandler();
-        setupResizeHandler();
-        
-        if (typeof GameLogger !== 'undefined') {
-            GameLogger.info('Игра инициализирована');
-        }
-    }
+    });
+}
 
-    function startGame() {
-        GameState.reset();
-        GameState.setPlayerPosition(
-            GameState.windowWidth() / 2,
-            GameState.windowHeight() / 2
-        );
-        
-        GameUI.showGameUI();
-        GameUI.hideAllMenus();
-        
-        GameUI.createPlayer();
-        GameUI.updateAmmo();
-        GameUI.updateKills();
-        GameUI.updateHealth();
-        
-        GameWaves.startNextWave();
-        GameLogger.logGameStart();
-        
-        gameLoop();
-    }
+function pauseGame() {
+    if (!GameState.isPlaying()) return;
+    GameState.setPaused(true);
+    GameUI.elements.pauseMenu.style.display = 'flex';
+    GameLogger.logPause();
+}
 
-    function gameLoop() {
-        if (!GameState.isPlaying() || GameState.isPaused()) return;
-        
-        requestAnimationFrame(gameLoop);
-        
-        GameHero.updatePosition();
-        GameAI.moveBullets();
-        GameAI.shootAtNearestEnemy();
-        
-        var playerDied = GameAI.updateEnemies();
-        if (playerDied) {
-            endGame();
-        }
-    }
+function resumeGame() {
+    if (!GameState.isPlaying()) return;
+    GameState.setPaused(false);
+    GameUI.elements.pauseMenu.style.display = 'none';
+    GameLogger.logResume();
+    gameLoop();
+}
+function endGame() {
+ console.log('[Core] endGame вызван');
 
-    function setupPauseHandler() {
-        document.addEventListener('keydown', function(e) {
-            if (e.code !== 'Escape' || !GameState.isPlaying()) return;
-            
-            if (GameState.isPaused()) {
-                resumeGame();
-            } else {
-                pauseGame();
-            }
-        });
-    }
+ GameState.setPlaying(false);
+    GameUI.showGameOver();
+    GameLogger.logGameOver();
+}
 
-    function pauseGame() {
-        if (!GameState.isPlaying()) return;
-        GameState.setPaused(true);
-        if (GameUI.elements && GameUI.elements.pauseMenu) {
-            GameUI.elements.pauseMenu.style.display = 'flex';
-        }
-        GameLogger.logPause();
-    }
-
-    function resumeGame() {
-        if (!GameState.isPlaying()) return;
-        GameState.setPaused(false);
-        if (GameUI.elements && GameUI.elements.pauseMenu) {
-            GameUI.elements.pauseMenu.style.display = 'none';
-        }
-        GameLogger.logResume();
-        gameLoop();
-    }
-
-    function endGame() {
-        GameState.setPlaying(false);
-        GameUI.showGameOver();
-        GameLogger.logGameOver();
-    }
-
-    function setupResizeHandler() {
-        window.addEventListener('resize', function() {
-            GameState.updateWindowSize();
-        });
-    }
-
-    // Публичные методы
+function setupResizeHandler() {
+    window.addEventListener('resize', function() {
+        GameState.updateWindowSize();
+    });
+}
+    // В конце вернем публичные методы
     return {
         init: init,
         startGame: startGame,
@@ -114,3 +91,6 @@ var GameCore = (function() {
         resumeGame: resumeGame
     };
 })();
+window.addEventListener('load', function() {
+    GameCore.init();
+});
