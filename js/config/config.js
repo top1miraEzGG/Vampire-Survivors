@@ -34,23 +34,47 @@ var GameConfig = (function() {
 
     // Текущая сложность
     var currentDifficulty = 'normal';
-
-    return {
-        DIFFICULTIES: DIFFICULTIES,
-        ROLES: ROLES,
-        GAME_PARAMS: GAME_PARAMS,
-        currentDifficulty: currentDifficulty,
-        
-        getDifficulty: function() {
-            return this.DIFFICULTIES[this.currentDifficulty];
+    var ASSETS = {
+    images: {
+        player: 'assets/images/player/idle.png',
+        playerGun: 'assets/images/player/gun.png',
+        enemies: {
+            chaser: 'assets/images/enemies/chaser.png',
+            interceptor: 'assets/images/enemies/interceptor.png',
+            flanker: 'assets/images/enemies/flanker.png'
         },
-        
-        setDifficulty: function(level) {
-            this.currentDifficulty = level;
-            // Исправляем скорость для easy, которая была потеряна
-            if (level === 'easy' && !this.DIFFICULTIES.easy.enemySpeed) {
-                this.DIFFICULTIES.easy.enemySpeed = 1.4;
-            }
-        }
-    };
+        bullet: 'assets/images/ui/bullet.png',
+        heart: 'assets/images/ui/heart.png'
+    },
+    sounds: {
+        shoot: 'assets/sounds/shoot.mp3',
+        hit: 'assets/sounds/hit.mp3',
+        enemyDeath: 'assets/sounds/enemy-death.mp3',
+        waveStart: 'assets/sounds/wave-start.mp3'
+    }
+};
+
+var VISUAL_CONFIG = {
+    particleEffects: true,
+    screenShake: true,
+    muzzleFlash: true,
+    bloodSplatter: true
+};
+
+return {
+    DIFFICULTIES: DIFFICULTIES,
+    ROLES: ROLES,
+    GAME_PARAMS: GAME_PARAMS,
+    currentDifficulty: currentDifficulty,
+    ASSETS: ASSETS,           // ДОБАВИТЬ
+    VISUAL_CONFIG: VISUAL_CONFIG,  // ДОБАВИТЬ
+    
+    getDifficulty: function() {
+        return this.DIFFICULTIES[this.currentDifficulty];
+    },
+    
+    setDifficulty: function(level) {
+        this.currentDifficulty = level;
+    }
+};
 })();
