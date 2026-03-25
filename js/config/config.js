@@ -48,9 +48,9 @@ var GameConfig = (function() {
     },
     sounds: {
         shoot: 'assets/sounds/shoot.mp3',
-        hit: 'assets/sounds/hit.mp3',
-        enemyDeath: 'assets/sounds/enemy-death.mp3',
-        waveStart: 'assets/sounds/wave-start.mp3'
+        hit: 'assets/sounds/shoot.mp3',
+        enemyDeath: 'assets/sounds/shoot.mp3',
+        waveStart: 'assets/sounds/shoot.mp3'
     }
 };
 
