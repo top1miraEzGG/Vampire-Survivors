@@ -3,5 +3,6 @@ function gameLoop() {
    
 }
 
+helloUI();
 gameLoop();
 
