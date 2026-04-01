@@ -1,7 +1,3 @@
-// ============================================================
-// canvas.js - Управление Canvas и рендерингом
-// ============================================================
-
 var GameCanvas = (function () {
     var canvas = null;
     var ctx = null;
@@ -114,7 +110,12 @@ var GameCanvas = (function () {
         gradient.addColorStop(1, '#16213e');
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
+
+        // Рисуем пол (Участник 1)
+        if (typeof window.drawFloor === 'function') {
+            window.drawFloor(ctx);
+        }
+
         renderEnemies();
         renderBullets();
         renderPlayer();
