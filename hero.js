@@ -54,12 +54,6 @@ var GameHero = (function() {
         var newY = Math.max(0, Math.min(GameState.windowHeight() - 20, GameState.player().y + dy));
 
         GameState.setPlayerPosition(newX, newY);
-
-        var player = GameState.player();
-        if (player.element) {
-            player.element.style.left = newX + 'px';
-            player.element.style.top = newY + 'px';
-        }
     }
 
     return {

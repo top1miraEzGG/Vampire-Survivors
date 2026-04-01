@@ -1,5 +1,4 @@
 
-
 // ============================================================
 // core.js - Главный цикл игры
 // ============================================================
@@ -40,10 +39,10 @@ var GameCore = (function() {
         GameUI.showGameUI();
         GameUI.hideAllMenus();
         
-        GameUI.createPlayer();
         GameUI.updateAmmo();
         GameUI.updateKills();
         GameUI.updateHealth();
+        GameUI.updateExperience();
         
         GameWaves.startNextWave();
         GameLogger.logGameStart();
@@ -63,6 +62,11 @@ var GameCore = (function() {
         GameHero.updatePosition();
         GameAI.moveBullets();
         GameAI.shootAtNearestEnemy();
+        
+        // Обновляем частицы
+        if (GameConfig.VISUAL_CONFIG.particleEffects && typeof GameParticles !== 'undefined') {
+            GameParticles.update(16.67); // ~60fps
+        }
         
         var playerDied = GameAI.updateEnemies();
         if (playerDied) {
@@ -123,4 +127,5 @@ var GameCore = (function() {
         resumeGame: resumeGame
     };
 })();
+
 
