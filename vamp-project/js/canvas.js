@@ -5,7 +5,7 @@ var GameCanvas = (function () {
     var animationId = null;
 
     var images = {
-        player: null,
+        player: assets/images/palyer/idle,
         playerGun: null,
         enemies: { chaser: null, interceptor: null, flanker: null },
         bullet: null,
