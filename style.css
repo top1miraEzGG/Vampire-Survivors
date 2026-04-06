@@ -386,4 +386,61 @@ button:hover {
         inset 0 0 4px rgba(255, 255, 255, 0.35);
     border: 1px solid rgba(200, 220, 255, 0.5);
 }
+/* Стили для окна выбора улучшений */
+#upgrade-screen {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid gold;
+    border-radius: 15px;
+    padding: 20px;
+    z-index: 200;
+    text-align: center;
+    color: white;
+    min-width: 400px;
+}
 
+.upgrade-card {
+    background: rgba(30, 30, 50, 0.95);
+    border: 1px solid #ffd700;
+    border-radius: 10px;
+    padding: 15px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+    width: 150px;
+    text-align: center;
+}
+
+.upgrade-card:hover {
+    transform: scale(1.05);
+    background: rgba(50, 50, 80, 0.95);
+    border-color: #ffaa00;
+}
+
+.upgrade-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 10px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.upgrade-name {
+    font-weight: bold;
+    color: #ffd700;
+    margin: 5px 0;
+}
+
+.upgrade-desc {
+    font-size: 12px;
+    color: #ccc;
+}
+/* Временные иконки для улучшений (пока нет PNG) */
+.icon-damage { background-color: #ff4444; border-radius: 50%; }
+.icon-speed { background-color: #44ff44; border-radius: 50%; }
+.icon-firerate { background-color: #ffaa44; border-radius: 50%; }
+.icon-health { background-color: #ff44ff; border-radius: 50%; }
+.icon-range { background-color: #44ffff; border-radius: 50%; }

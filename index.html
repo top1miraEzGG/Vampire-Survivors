@@ -31,6 +31,15 @@
         <button id="resume-button">Продолжить</button>
         <button id="pause-exit-button">Выход в меню</button>
     </div>
+    <!-- Окно выбора улучшения (появляется при повышении уровня) -->
+<div id="upgrade-screen" class="menu" style="display:none;">
+    <h2>Повышение уровня!</h2>
+    <p>Выберите улучшение:</p>
+    <div id="upgrade-options" style="display: flex; gap: 20px; justify-content: center; margin: 20px;">
+        <!-- Сюда динамически добавятся 3 кнопки улучшений -->
+    </div>
+    <button id="upgrade-close" style="display:none;">Продолжить</button>
+</div>
 
     <!-- Игровой контейнер — область игры. -->
     <div id="game-container" class="game-container"></div>
