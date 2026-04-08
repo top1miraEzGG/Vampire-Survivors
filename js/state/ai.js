@@ -44,11 +44,13 @@ var GameAI = (function() {
         var player = GameState.player();
         
         for (var i = 0; i < enemies.length; i++) {
-            var enemy = enemies[i];
-            var d = Math.hypot(enemy.posX - player.x, enemy.posY - player.y);
-            if (d < minDist) { 
+        var enemy = enemies[i];
+        var dx = enemy.posX - player.x;
+        var dy = enemy.posY - player.y;
+        var d = Math.sqrt(dx*dx + dy*dy);
+        if (d < minDist) { 
                 minDist = d; 
-                nearest = enemy; 
+                nearest = enemy;
             }
         }
         if (!nearest) return;
@@ -92,27 +94,36 @@ var GameAI = (function() {
         }
     }
     
-    function separateEnemies() {
+     function separateEnemies() {
         var enemies = GameState.enemies();
+        var minDist = GameConfig.GAME_PARAMS.MIN_DIST;
+        var sepForce = GameConfig.GAME_PARAMS.SEP_FORCE;
+        
         for (var i = 0; i < enemies.length; i++) {
             var a = enemies[i];
             var sx = 0, sy = 0;
             
-            for (var j = 0; j < enemies.length; j++) {
-                if (i === j) continue;
+            // Ранний выход - цикл только j > i (уменьшает итерации вдвое)
+            for (var j = i + 1; j < enemies.length; j++) {
                 var b = enemies[j];
                 var dx = a.posX - b.posX;
                 var dy = a.posY - b.posY;
-                var d = Math.hypot(dx, dy);
+                // Замена Math.hypot на Math.sqrt(x*x + y*y)
+                var d = Math.sqrt(dx*dx + dy*dy);
                 
-                if (d < GameConfig.GAME_PARAMS.MIN_DIST && d > 0) {
-                    var force = (GameConfig.GAME_PARAMS.MIN_DIST - d) / GameConfig.GAME_PARAMS.MIN_DIST;
-                    sx += (dx / d) * force;
-                    sy += (dy / d) * force;
+                if (d < minDist && d > 0) {
+                    var force = (minDist - d) / minDist;
+                    var sxAdd = (dx / d) * force;
+                    var syAdd = (dy / d) * force;
+                    sx += sxAdd;
+                    sy += syAdd;
+                    // Симметричное применение силы к обоим врагам
+                    b.posX -= sxAdd * sepForce;
+                    b.posY -= syAdd * sepForce;
                 }
             }
-            a.posX += sx * GameConfig.GAME_PARAMS.SEP_FORCE;
-            a.posY += sy * GameConfig.GAME_PARAMS.SEP_FORCE;
+            a.posX += sx * sepForce;
+            a.posY += sy * sepForce;
         }
     }
     
@@ -130,7 +141,7 @@ var GameAI = (function() {
         if (e.role === 'flanker') {
             var dx = player.x - e.posX;
             var dy = player.y - e.posY;
-            var dist = Math.hypot(dx, dy) || 1;
+            var dist = Math.sqrt(dx*dx + dy*dy) || 1;
             var nx = dx / dist;
             var ny = dy / dist;
             return {
@@ -164,7 +175,10 @@ var GameAI = (function() {
         
         for (var i = enemies.length - 1; i >= 0; i--) {
             var e = enemies[i];
-            var distToPlayer = Math.hypot(e.posX - player.x, e.posY - player.y);
+            var dxToPlayer = e.posX - player.x;
+            var dyToPlayer = e.posY - player.y;
+            var distToPlayer = Math.sqrt(dxToPlayer*dxToPlayer + dyToPlayer*dyToPlayer);
+            
             
             var target;
             if (distToPlayer < 50) {
@@ -175,13 +189,12 @@ var GameAI = (function() {
             
             var ex = target.tx - e.posX;
             var ey = target.ty - e.posY;
-            var elen = Math.hypot(ex, ey);
+            var elen = Math.sqrt(ex*ex + ey*ey);
             
             if (elen > 1) {
                 e.posX += (ex / elen) * diff.enemySpeed;
                 e.posY += (ey / elen) * diff.enemySpeed;
             }
-            
             // Урон при касании
             if (distToPlayer < 20) {
                 var playerDied = GameState.takeDamage(diff.damagePerHit);
