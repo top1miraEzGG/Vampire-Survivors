@@ -17,20 +17,6 @@ var GameConfig = (function() {
                    'flanker', 'flanker', 'elite', 'brute', 'rusher', 'orbiter '];
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-                   
     // Параметры игры
     var GAME_PARAMS = {
         MAX_AMMO: 999,
