@@ -16,6 +16,21 @@ var GameConfig = (function() {
                    'interceptor', 'interceptor', 'interceptor',
                    'flanker', 'flanker', 'elite', 'brute', 'rusher', 'orbiter '];
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   
     // Параметры игры
     var GAME_PARAMS = {
         MAX_AMMO: 999,
