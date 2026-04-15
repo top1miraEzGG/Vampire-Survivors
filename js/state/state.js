@@ -29,6 +29,12 @@ var GameState = (function() {
     let enemiesInWave = 0;
     let enemiesDefeated = 0;
     let totalKills = 0;
+
+    // Опыт и уровень
+    let currentExp = 0;           // текущий опыт
+    let playerLevel = 1;          // текущий уровень
+    let expToNextLevel = 100;     // опыт до следующего уровня
+    let pendingUpgrades = [];     // ожидающие улучшения
     
     // Размеры окна
     let windowWidth = window.innerWidth;
@@ -53,6 +59,25 @@ var GameState = (function() {
         totalKills: function() { return totalKills; },
         windowWidth: function() { return windowWidth; },
         windowHeight: function() { return windowHeight; },
+        currentExp: function() { return currentExp; },
+        playerLevel: function() { return playerLevel; },
+        expToNextLevel: function() { return expToNextLevel; },
+
+        addExp: function(amount) {
+            currentExp += amount;
+            return currentExp >= expToNextLevel; // вернет true если уровень повысился
+        },
+
+        levelUp: function() {
+            playerLevel++;
+            currentExp = 0;
+            // Формула: 100 + (уровень-1) * 50
+            expToNextLevel = 100 + (playerLevel - 1) * 50;
+        },
+
+        setPendingUpgrades: function(upgrades) { pendingUpgrades = upgrades; },
+        getPendingUpgrades: function() { return pendingUpgrades; },
+        clearPendingUpgrades: function() { pendingUpgrades = []; },
 
         
         setGunAngle: function(angle) {
