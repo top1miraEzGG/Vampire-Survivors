@@ -234,7 +234,24 @@ var GameAI = (function() {
                             GameSound.play('enemyDeath');
                         }
                         // Спавн сферы опыта при смерти врага
-                        var expValue = 10 + Math.floor(GameState.waveNumber() * 2);
+                      var wave = GameState.waveNumber();
+                        var enemyType = e.role;
+                        var baseExp = 10;
+
+                        // Разный опыт за разных врагов
+                        if (enemyType === 'runner') {
+                            baseExp = 5;
+                        } else if (enemyType === 'tank') {
+                            baseExp = 25;
+                        } else if (enemyType === 'chaser') {
+                            baseExp = 10;
+                        } else if (enemyType === 'interceptor') {
+                            baseExp = 15;
+                        } else if (enemyType === 'flanker') {
+                            baseExp = 12;
+                        }
+
+                        var expValue = Math.floor(baseExp + wave * 1.5);
                         if (typeof GameParticles !== 'undefined' && GameParticles.createExpOrb) {
                             GameParticles.createExpOrb(e.posX, e.posY, expValue);
                                 }
