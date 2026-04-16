@@ -47,21 +47,47 @@ var GameCore = (function() {
         gameLoop();
     }
 
-    function gameLoop() {
-        if (!GameState.isPlaying() || GameState.isPaused()) return;
+   // ===== ДОБАВИТЬ РЕГЕНЕРАЦИЮ =====
+var lastRegenTime = 0;
+
+function gameLoop() {
+    if (!GameState.isPlaying() || GameState.isPaused()) return;
+    
+    requestAnimationFrame(gameLoop);
+    
+    GameHero.updatePosition();
+    GameAI.moveBullets();
+    GameAI.shootAtNearestEnemy();
+    
+    if (typeof GameParticles !== 'undefined') {
+        GameParticles.updateExpOrbs();
+        GameParticles.updateFloatingTexts();
+    }
+    
+    // ===== РЕГЕНЕРАЦИЯ ЗДОРОВЬЯ =====
+    var now = Date.now();
+    if (now - lastRegenTime > 1000) {
+        lastRegenTime = now;
         
-        requestAnimationFrame(gameLoop);
+        // Получаем бонус регенерации из улучшений
+        var regenBonus = GameConfig.getHealthRegen ? GameConfig.getHealthRegen() : 0;
         
-        GameHero.updatePosition();
-        GameAI.moveBullets();
-        GameAI.shootAtNearestEnemy();
-        
-        var playerDied = GameAI.updateEnemies();
-        if (playerDied) {
-            endGame();
+        if (regenBonus > 0) {
+            var player = GameState.player();
+            var maxHealth = GameState.getMaxHealth ? GameState.getMaxHealth() : 100;
+            if (player.health < maxHealth) {
+                player.health = Math.min(player.health + regenBonus, maxHealth);
+                if (typeof GameUI !== 'undefined') GameUI.updateHealth();
+            }
         }
     }
-
+    // ===== =====
+    
+    var playerDied = GameAI.updateEnemies();
+    if (playerDied) {
+        endGame();
+    }
+}
     function setupPauseHandler() {
         document.addEventListener('keydown', function(e) {
             if (e.code !== 'Escape' || !GameState.isPlaying()) return;
