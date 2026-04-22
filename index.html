@@ -133,16 +133,40 @@
     </div>
   </div>
 
-  <script src="js/settings/utils.js"></script>
-<script src="js/settings/config.js"></script>
-<script src="js/graphics/canvas.js"></script>
-<script src="js/graphics/particles.js"></script>
-<script src="js/graphics/ui.js"></script>
-<script src="js/game/player.js"></script>
-<script src="js/game/enemies.js"></script>
-<script src="js/game/weapons.js"></script>
-<script src="js/game/world.js"></script>
-<script src="js/game/game.js"></script>
+      <!-- ===== SETTINGS (Конфигурации) ===== -->
+    <script src="settings/utils.js"></script>
+    <script src="settings/game-config.js"></script>
+    <script src="settings/weapons-config.js"></script>
+    <script src="settings/passives-config.js"></script>
+    
+    <!-- ===== GRAPHICS (Визуальная часть) ===== -->
+    <script src="graphics/canvas.js"></script>
+    <script src="graphics/particles.js"></script>
+    <script src="graphics/ui.js"></script>
+    
+    <!-- ===== GAME CORE (Базовые классы) ===== -->
+    <script src="game/weapons-core.js"></script>
+    <script src="game/weapons-system.js"></script>
+    <script src="game/player.js"></script>
+    <script src="game/enemies.js"></script>
+    <script src="game/world.js"></script>
+    
+    <!-- ===== GAME CLASS (Определение класса) ===== -->
+    <script src="game/game-core.js"></script>
+    
+    <!-- ===== GAME METHODS (Добавление в прототип) ===== -->
+    <script src="game/game-update.js"></script>
+    <script src="game/game-events.js"></script>
+    
+    <!-- ===== BOOT (Запуск) ===== -->
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            window.game = new Game();
+            console.log('%c🧛 VAMPIRE SURVIVORS CLONE LOADED', 'color:#c0152a;font-size:1.2em;font-weight:bold');
+            console.log('%cWASD / Arrow keys to move. Weapons fire automatically!', 'color:#e8b84b');
+            console.log('%cType window._debug=true to show debug info', 'color:#888');
+        });
+    </script>
 </body>
 </html>
 
