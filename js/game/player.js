@@ -140,5 +140,3 @@ class Player {
     console.log('[Player] draw() - будет заменен на спрайт в Шаге 5');
 }
     }
-  }
-}
