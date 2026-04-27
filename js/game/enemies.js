@@ -187,23 +187,7 @@ class EnemySystem {
     console.log('[EnemySystem] draw() - будет заменен на спрайты в Шаге 6');
 }
 
-      // HP Bar (only if damaged)
-      if (e.hp < e.maxHp) {
-        const barW = e.radius * 2.2;
-        const barH = 4;
-        const bx = sx - barW / 2;
-        const by = sy - e.radius - 10 + bob;
-        const pct = Utils.clamp(e.hp / e.maxHp, 0, 1);
-
-        ctx.fillStyle = 'rgba(0,0,0,0.7)';
-        ctx.fillRect(bx, by, barW, barH);
-
-        const hpColor = pct > 0.5 ? '#2ecc71' : pct > 0.25 ? '#f39c12' : '#c0152a';
-        ctx.fillStyle = hpColor;
-        ctx.fillRect(bx, by, barW * pct, barH);
-      }
-    }
-  }
+  
 
   _getCurrentWave(gameTime) {
     const waves = CONFIG.SPAWN_WAVES;
@@ -217,3 +201,4 @@ class EnemySystem {
 
   getActiveCount() { return this.enemies.filter(e => e.active).length; }
 }
+
